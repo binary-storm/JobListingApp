@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:job_listing_app/global.dart';
 import 'package:job_listing_app/Home/job.dart';
 import 'package:job_listing_app/Home/community.dart';
@@ -7,100 +8,104 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: background,
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(26, 40, 26, 40),
-                  constraints: BoxConstraints.expand(height: 225),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [lightBlue, lightGreen],
-                          begin: FractionalOffset(1.0, 1.0),
-                          end: FractionalOffset(0.2, 0.2),
-                          stops: [0.0, 1.0],
-                          tileMode: TileMode.clamp),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20))),
-                  child: Container(
-                    padding: EdgeInsets.only(top: 20),
+      
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Container(
+          color: background,
+          child: Column(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(26, 40, 26, 40),
+                    constraints: BoxConstraints.expand(height: 225),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [lightBlue, lightGreen],
+                            begin: FractionalOffset(1.0, 1.0),
+                            end: FractionalOffset(0.2, 0.2),
+                            stops: [0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('Beranda', style: titleStyle),
+                              Container(
+                                constraints: BoxConstraints.tightFor(
+                                    width: 30, height: 30),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(50, 255, 255, 255)),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.search,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  onTap: () => {},
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 36),
+                          Text(
+                            'Connect to People Like You',
+                            style: subtitleStyleLight,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    //color: Color.fromARGB(50, 1, 1, 1),
+                    margin: EdgeInsets.only(top: 150),
+                    constraints: BoxConstraints.expand(height: 200),
+                    child: ListView(
+                        padding: EdgeInsets.only(left: 26),
+                        scrollDirection: Axis.horizontal,
+                        children: getRecentJobs()),
+                  ),
+                  Container(
+                    //color: Color.fromARGB(50, 1, 1, 1),
+                    constraints: BoxConstraints.expand(height: 400),
+                    margin: EdgeInsets.only(top: 350),
+                    //padding: EdgeInsets.fromLTRB(26, 10, 26, 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('Beranda', style: titleStyle),
-                            Container(
-                              constraints: BoxConstraints.tightFor(
-                                  width: 30, height: 30),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color.fromARGB(50, 255, 255, 255)),
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.search,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                                onTap: () => {},
-                              ),
-                            )
-                          ],
+                        Container(
+                            padding: EdgeInsets.fromLTRB(26, 10, 26, 0),
+                            child: Text('Explore Communities',
+                                style: subtitleStyleDark)),
+                        Container(
+                          child: Expanded(
+                            child: GridView(
+                                padding: EdgeInsets.fromLTRB(26, 16, 26, 0),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.8,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10),
+                                children: getCommunities()),
+                          ),
                         ),
-                        SizedBox(height: 36),
-                        Text(
-                          'Connect to People Like You',
-                          style: subtitleStyleLight,
-                        )
                       ],
                     ),
-                  ),
-                ),
-                Container(
-                  //color: Color.fromARGB(50, 1, 1, 1),
-                  margin: EdgeInsets.only(top: 150),
-                  constraints: BoxConstraints.expand(height: 200),
-                  child: ListView(
-                      padding: EdgeInsets.only(left: 26),
-                      scrollDirection: Axis.horizontal,
-                      children: getRecentJobs()),
-                ),
-                Container(
-                  //color: Color.fromARGB(50, 1, 1, 1),
-                  constraints: BoxConstraints.expand(height: 400),
-                  margin: EdgeInsets.only(top: 350),
-                  //padding: EdgeInsets.fromLTRB(26, 10, 26, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.fromLTRB(26, 10, 26, 0),
-                          child: Text('Explore Communities',
-                              style: subtitleStyleDark)),
-                      Container(
-                        child: Expanded(
-                          child: GridView(
-                              padding: EdgeInsets.fromLTRB(26, 16, 26, 0),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.8,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10),
-                              children: getCommunities()),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       // bottomNavigationBar: BottomNavigationBar(
